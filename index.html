@@ -137,51 +137,121 @@
             margin: 0 0 0.5em 0;
             color: #2c3e50;
         }
+
+        .login-form {
+            max-width: 400px;
+            margin: 2em auto;
+            padding: 2em;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 0.75em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 0.75em;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-form button:hover {
+            background-color: #16a085;
+        }
+
+        .sub-section {
+            margin-top: 1.5em;
+            padding: 1.5em;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .search-bar {
+            margin-bottom: 1.5em;
+        }
+
+        .search-bar input {
+            width: calc(100% - 50px);
+            padding: 0.75em;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-bar button {
+            padding: 0.75em;
+            border: none;
+            background-color: #1abc9c;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <h1>Database delle Forze dell'Ordine</h1>
-            <nav>
-                <ul>
-                    <li><a href="#criminali">Database Criminale</a></li>
-                    <li><a href="#unita">Unit&agrave; Operative</a></li>
-                    <li><a href="#armeria">Armeria</a></li>
-                    <li><a href="#rapporti">Rapporti</a></li>
-                    <li><a href="#mappa">Mappa Interattiva</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
     <main>
+        <section class="login">
+            <div class="container">
+                <form class="login-form" onsubmit="event.preventDefault(); login();">
+                    <h2>Accesso</h2>
+                    <input type="text" id="username" placeholder="Nome RP" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="submit">Accedi</button>
+                </form>
+            </div>
+        </section>
+
         <section id="criminali" class="section">
             <div class="container">
                 <h2>Database Criminale</h2>
                 <div class="content-box">
-                    <p>Consulta i dati sui sospetti, criminali e organizzazioni note.</p>
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+                    <h3>Informazioni</h3>
+                    <div class="sub-section">
+                        <div class="search-bar">
+                            <input type="text" id="search-name" placeholder="Cerca per nome...">
+                            <button onclick="searchRecord()">Cerca</button>
+                        </div>
+                        <form id="create-record-form">
+                            <label>Nome Completo del Soggetto:</label>
+                            <input type="text" id="full-name" required>
 
-        <section id="unita" class="section">
-            <div class="container">
-                <h2>Unit&agrave; Operative</h2>
-                <div class="content-box">
-                    <p>Elenco delle unit&agrave; di polizia e squadre speciali.</p>
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+                            <label>Et&agrave;:</label>
+                            <input type="number" id="age" required>
 
-        <section id="armeria" class="section">
-            <div class="container">
-                <h2>Armeria</h2>
-                <div class="content-box">
-                    <p>Consulta l'inventario delle armi e attrezzature disponibili.</p>
-                    <p><em>Funzionalità in costruzione...</em></p>
+                            <label>Reati Penali:</label>
+                            <textarea id="criminal-record" required></textarea>
+
+                            <label>Reati Stradali:</label>
+                            <textarea id="traffic-record" required></textarea>
+
+                            <label>Possesso di Porto d'Armi:</label>
+                            <select id="gun-license">
+                                <option value="yes">S&igrave;</option>
+                                <option value="no">No</option>
+                            </select>
+
+                            <button type="submit">Crea Stanza</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -196,21 +266,25 @@
             </div>
         </section>
 
-        <section id="mappa" class="section">
+        <footer>
             <div class="container">
-                <h2>Mappa Interattiva</h2>
-                <div class="content-box">
-                    <p>Visualizza le zone di interesse e i crimini segnalati.</p>
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
+                <p>&copy; 2024 Database delle Forze dell'Ordine - Roleplay</p>
             </div>
-        </section>
-    </main>
+        </footer>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Database delle Forze dell'Ordine - Roleplay</p>
-        </div>
-    </footer>
-</body>
+        <script>
+            function login() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                // Validazione e logica di accesso
+                alert(`Accesso effettuato per ${username}`);
+            }
+
+            function searchRecord() {
+                const name = document.getElementById('search-name').value;
+                alert(`Cerca record per: ${name}`);
+            }
+        </script>
+    </body>
 </html>
+
