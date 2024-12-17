@@ -166,6 +166,25 @@
             font-weight: bold;
         }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            margin: 0;
+        }
+
+        .section-header button {
+            padding: 0.75em;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -176,7 +195,7 @@
     </header>
 
     <main>
-        <section class="login">
+        <section id="login-section">
             <div class="container">
                 <form class="login-form" onsubmit="event.preventDefault(); login();">
                     <h2>Accesso</h2>
@@ -191,7 +210,9 @@
 
         <section id="carabinieri-section" class="section" style="display:none;">
             <div class="container">
-                <h2>Database Carabinieri</h2>
+                <div class="section-header">
+                    <h2>Database Carabinieri</h2>
+                </div>
                 <div class="content-box">
                     <h3>Database</h3>
                     <div class="sub-section">
@@ -220,6 +241,29 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="content-box">
+                    <h3>Informazioni</h3>
+                    <div class="sub-section">
+                        <button class="btn" onclick="showMandateForm()">Mandati</button>
+                    </div>
+                    <div id="mandate-form" class="add-record-form" style="display: none;">
+                        <h3>Aggiungi Mandato</h3>
+                        <form>
+                            <label>Nome Completo:</label>
+                            <input type="text" id="mandate-name" required>
+                            <label>Tipo di Mandato:</label>
+                            <select id="mandate-type" required>
+                                <option value="arresto">Mandato di Arresto</option>
+                                <option value="comparizione">Mandato di Comparizione</option>
+                            </select>
+                            <label>Motivo del Mandato:</label>
+                            <textarea id="mandate-reason" required></textarea>
+                            <button type="submit">Aggiungi Mandato</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -238,6 +282,9 @@
                     alert("Compila tutti i campi.");
                     return;
                 }
+
+                // Hide login section
+                document.getElementById('login-section').style.display = 'none';
 
                 // Show loading screen
                 document.getElementById('loading-screen').style.display = 'block';
@@ -261,7 +308,10 @@
             function showAddRecordForm() {
                 document.getElementById('add-record-form').style.display = 'block';
             }
+
+            function showMandateForm() {
+                document.getElementById('mandate-form').style.display = 'block';
+            }
         </script>
     </body>
 </html>
-
