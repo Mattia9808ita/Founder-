@@ -102,45 +102,6 @@
             cursor: pointer;
         }
 
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1em;
-        }
-
-        .feature {
-            padding: 1.5em;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .feature h3 {
-            margin: 0 0 0.5em 0;
-            color: #2c3e50;
-        }
-
-        .search-bar {
-            margin-bottom: 1.5em;
-        }
-
-        .search-bar input {
-            width: calc(100% - 50px);
-            padding: 0.75em;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-        }
-
-        .search-bar button {
-            padding: 0.75em;
-            border: none;
-            background-color: #1abc9c;
-            color: white;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-
         .add-record-form {
             display: none;
             background-color: white;
@@ -214,14 +175,8 @@
                     <h2>Database Carabinieri</h2>
                 </div>
                 <div class="content-box">
-                    <h3>Database</h3>
-                    <div class="sub-section">
-                        <div class="search-bar">
-                            <input type="text" id="search-name" placeholder="Cerca per nome...">
-                            <button onclick="searchRecord()">Cerca</button>
-                        </div>
-                        <button class="btn" onclick="showAddRecordForm()">+</button>
-                    </div>
+                    <h3>Informazioni</h3>
+                    <button class="btn" onclick="showAddRecordForm()">+</button>
                     <div id="add-record-form" class="add-record-form">
                         <h3>Aggiungi Record</h3>
                         <form>
@@ -241,12 +196,9 @@
                         </form>
                     </div>
                 </div>
-
                 <div class="content-box">
-                    <h3>Informazioni</h3>
-                    <div class="sub-section">
-                        <button class="btn" onclick="showMandateForm()">Mandati</button>
-                    </div>
+                    <h3>Mandati</h3>
+                    <button class="btn" onclick="showMandateForm()">+</button>
                     <div id="mandate-form" class="add-record-form" style="display: none;">
                         <h3>Aggiungi Mandato</h3>
                         <form>
@@ -263,7 +215,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -274,6 +225,16 @@
         </footer>
 
         <script>
+            // Check if user is already logged in
+            window.onload = function() {
+                const fullName = localStorage.getItem('fullName');
+                const faction = localStorage.getItem('faction');
+
+                if (fullName && faction) {
+                    loginUser(faction);
+                }
+            };
+
             function login() {
                 const fullName = document.getElementById('full-name').value;
                 const faction = document.getElementById('fazione').value;
@@ -283,6 +244,14 @@
                     return;
                 }
 
+                // Save login details in localStorage
+                localStorage.setItem('fullName', fullName);
+                localStorage.setItem('faction', faction);
+
+                loginUser(faction);
+            }
+
+            function loginUser(faction) {
                 // Hide login section
                 document.getElementById('login-section').style.display = 'none';
 
@@ -300,11 +269,6 @@
                 }, 2000);
             }
 
-            function searchRecord() {
-                const name = document.getElementById('search-name').value;
-                alert(`Cerca record per: ${name}`);
-            }
-
             function showAddRecordForm() {
                 document.getElementById('add-record-form').style.display = 'block';
             }
@@ -315,3 +279,4 @@
         </script>
     </body>
 </html>
+
