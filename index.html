@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forze dell'Ordine - Database Roleplay</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Stili di base */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -19,258 +17,225 @@
             background-color: #2c3e50;
             color: white;
             padding: 1em 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1em;
+            text-align: center;
         }
 
         header h1 {
             margin: 0;
-            font-size: 1.8em;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+        }
+
+        nav a {
+            margin: 0 1em;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .section {
             display: none;
-            padding: 2em 1em;
+            padding: 2em;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .visible {
+            display: block;
         }
 
         .content-box {
-            background-color: white;
-            border: 1px solid #ddd;
+            background: #fff;
             padding: 1.5em;
+            border: 1px solid #ddd;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 2em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn {
-            padding: 0.75em 1.5em;
-            background-color: #1abc9c;
+            background: #1abc9c;
             color: white;
+            padding: 0.75em 1.5em;
             border: none;
             border-radius: 5px;
-            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 1em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2em;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            margin-bottom: 1em;
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal-content button {
+            background: #3498db;
+            color: white;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        .record-item {
-            padding: 1em;
-            margin-bottom: 1em;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: #f9f9f9;
-        }
-
-        /* Moduli di aggiunta schede */
-        .add-record-form, .add-warrant-form {
-            display: none;
+        .record-list {
             margin-top: 1em;
         }
 
-        .record-item input, .record-item textarea {
-            width: 100%;
-            padding: 0.5em;
-            margin-bottom: 0.5em;
+        .record-item {
+            background: #f9f9f9;
             border: 1px solid #ddd;
+            padding: 1em;
             border-radius: 5px;
+            margin-bottom: 1em;
         }
 
-        .record-item button {
-            padding: 0.5em;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .record-item h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #2c3e50;
         }
 
-        nav ul {
-            display: flex;
-            gap: 1em;
-            list-style: none;
-            padding: 0;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
+        .record-item p {
+            margin: 0.5em 0;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>Database delle Forze dell'Ordine</h1>
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showSection('informazioni-section')">Informazioni</a></li>
-                    <li><a href="#" onclick="showSection('rapporti-documenti-section')">Rapporti e Documenti</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>Forze dell'Ordine - Database Roleplay</h1>
+        <nav>
+            <a href="#" onclick="showSection('informazioni')">Informazioni</a>
+            <a href="#" onclick="showSection('rapporti-documenti')">Rapporti e Documenti</a>
+        </nav>
     </header>
 
     <main>
-        <section id="informazioni-section" class="section">
-            <div class="container">
+        <section id="informazioni" class="section">
+            <div class="content-box">
                 <h2>Informazioni</h2>
+                <button class="btn" onclick="showSubsection('database')">Database</button>
+                <button class="btn" onclick="showSubsection('mandati')">Mandati</button>
 
-                <!-- Sottosezione Database -->
-                <div class="content-box">
+                <div id="database" class="subsection">
                     <h3>Database</h3>
-                    <button class="btn" onclick="showAddRecordForm()">Aggiungi Scheda</button>
-                    <div id="add-record-form" class="add-record-form">
-                        <form onsubmit="event.preventDefault(); addRecord();">
-                            <input type="text" id="name" placeholder="Nome Completo" required>
-                            <input type="date" id="dob" required>
-                            <input type="text" id="residence" placeholder="Comune di Residenza" required>
-                            <input type="text" id="birthplace" placeholder="Luogo di Nascita" required>
-                            <textarea id="criminal-record" placeholder="Reati Penali"></textarea>
-                            <textarea id="traffic-record" placeholder="Reati Stradali"></textarea>
-                            <button type="submit">Salva Scheda</button>
-                        </form>
-                    </div>
-                    <div id="records-container"></div>
+                    <button class="btn" onclick="showModal('addRecordModal')">+</button>
+                    <div id="recordList" class="record-list"></div>
                 </div>
 
-                <!-- Sottosezione Mandati -->
-                <div class="content-box">
+                <div id="mandati" class="subsection" style="display: none;">
                     <h3>Mandati</h3>
-                    <button class="btn" onclick="showAddWarrantForm()">Aggiungi Mandato</button>
-                    <div id="add-warrant-form" class="add-warrant-form">
-                        <form onsubmit="event.preventDefault(); addWarrant();">
-                            <input type="text" id="warrant-name" placeholder="Nome Completo" required>
-                            <select id="warrant-type" required>
-                                <option value="arresto">Mandato di Arresto</option>
-                                <option value="comparizione">Mandato di Comparizione</option>
-                            </select>
-                            <textarea id="warrant-reason" placeholder="Motivo del Mandato"></textarea>
-                            <button type="submit">Salva Mandato</button>
-                        </form>
-                    </div>
-                    <div id="warrants-container"></div>
+                    <p>Sottosezione in sviluppo...</p>
                 </div>
             </div>
         </section>
 
-        <section id="rapporti-documenti-section" class="section">
-            <div class="container">
+        <section id="rapporti-documenti" class="section">
+            <div class="content-box">
                 <h2>Rapporti e Documenti</h2>
                 <p>Sezione in sviluppo...</p>
             </div>
         </section>
     </main>
 
+    <!-- Modale per aggiungere schede -->
+    <div id="addRecordModal" class="modal">
+        <div class="modal-content">
+            <h3>Aggiungi Scheda</h3>
+            <form id="recordForm">
+                <input type="text" id="recordName" placeholder="Nome Completo" required>
+                <input type="date" id="recordDob" required>
+                <input type="text" id="recordResidence" placeholder="Comune di Residenza" required>
+                <input type="text" id="recordBirthplace" placeholder="Luogo di Nascita" required>
+                <textarea id="recordCriminal" placeholder="Reati Penali"></textarea>
+                <textarea id="recordTraffic" placeholder="Reati Stradali"></textarea>
+                <button type="submit">Aggiungi</button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // Gestisce la visibilità delle sezioni
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
+                section.classList.remove('visible');
             });
-            document.getElementById(sectionId).style.display = 'block';
+            document.getElementById(sectionId).classList.add('visible');
         }
 
-        function showAddRecordForm() {
-            document.getElementById('add-record-form').style.display = 'block';
-        }
-
-        function addRecord() {
-            const records = JSON.parse(localStorage.getItem('records')) || [];
-            const newRecord = {
-                name: document.getElementById('name').value,
-                dob: document.getElementById('dob').value,
-                residence: document.getElementById('residence').value,
-                birthplace: document.getElementById('birthplace').value,
-                criminalRecord: document.getElementById('criminal-record').value,
-                trafficRecord: document.getElementById('traffic-record').value,
-            };
-
-            records.push(newRecord);
-            localStorage.setItem('records', JSON.stringify(records));
-            loadRecords();
-            document.getElementById('add-record-form').reset();
-            document.getElementById('add-record-form').style.display = 'none';
-        }
-
-        function loadRecords() {
-            const records = JSON.parse(localStorage.getItem('records')) || [];
-            const container = document.getElementById('records-container');
-            container.innerHTML = '';
-
-            records.forEach(record => {
-                const div = document.createElement('div');
-                div.className = 'record-item';
-                div.innerHTML = `
-                    <p><strong>Nome:</strong> ${record.name}</p>
-                    <p><strong>Data di Nascita:</strong> ${record.dob}</p>
-                    <p><strong>Residenza:</strong> ${record.residence}</p>
-                    <p><strong>Luogo di Nascita:</strong> ${record.birthplace}</p>
-                    <p><strong>Reati Penali:</strong> ${record.criminalRecord}</p>
-                    <p><strong>Reati Stradali:</strong> ${record.trafficRecord}</p>
-                `;
-                container.appendChild(div);
+        // Gestisce la visibilità delle sottosezioni
+        function showSubsection(subsectionId) {
+            document.querySelectorAll('.subsection').forEach(subsection => {
+                subsection.style.display = 'none';
             });
+            document.getElementById(subsectionId).style.display = 'block';
         }
 
-        function showAddWarrantForm() {
-            document.getElementById('add-warrant-form').style.display = 'block';
+        // Mostra il modale per aggiungere una scheda
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('visible');
         }
 
-        function addWarrant() {
-            const warrants = JSON.parse(localStorage.getItem('warrants')) || [];
-            const newWarrant = {
-                name: document.getElementById('warrant-name').value,
-                type: document.getElementById('warrant-type').value,
-                reason: document.getElementById('warrant-reason').value,
-            };
-
-            warrants.push(newWarrant);
-            localStorage.setItem('warrants', JSON.stringify(warrants));
-            loadWarrants();
-            document.getElementById('add-warrant-form').reset();
-            document.getElementById('add-warrant-form').style.display = 'none';
+        // Nasconde il modale
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('visible');
         }
 
-        function loadWarrants() {
-            const warrants = JSON.parse(localStorage.getItem('warrants')) || [];
-            const container = document.getElementById('warrants-container');
-            container.innerHTML = '';
+        // Aggiunge una nuova scheda al database
+        document.getElementById('recordForm').addEventListener('submit', function (event) {
+            event.preventDefault();
 
-            warrants.forEach(warrant => {
-                const div = document.createElement('div');
-                div.className = 'record-item';
-                div.innerHTML = `
-                    <p><strong>Nome:</strong> ${warrant.name}</p>
-                    <p><strong>Tipo:</strong> ${warrant.type}</p>
-                    <p><strong>Motivo:</strong> ${warrant.reason}</p>
-                `;
-                container.appendChild(div);
-            });
-        }
+            const name = document.getElementById('recordName').value;
+            const dob = document.getElementById('recordDob').value;
+            const residence = document.getElementById('recordResidence').value;
+            const birthplace = document.getElementById('recordBirthplace').value;
+            const criminal = document.getElementById('recordCriminal').value;
+            const traffic = document.getElementById('recordTraffic').value;
 
-        // Carica i dati salvati al caricamento della pagina
-        window.onload = function() {
-            loadRecords();
-            loadWarrants();
-        };
+            const recordList = document.getElementById('recordList');
+            const recordItem = document.createElement('div');
+            recordItem.classList.add('record-item');
+            recordItem.innerHTML = `
+                <h4>${name}</h4>
+                <p><strong>Data di Nascita:</strong> ${dob}</p>
+                <p><strong>Comune di Residenza:</strong> ${residence}</p>
+                <p><strong>Luogo di Nascita:</strong> ${birthplace}</p>
+                <p><strong>Reati Penali:</strong> ${criminal}</p>
+                <p><strong>Reati Stradali:</strong> ${traffic}</p>
+            `;
+
+            recordList.appendChild(recordItem);
+            closeModal('addRecordModal');
+        });
     </script>
 </body>
 </html>
-
-        </script>
-    </body>
-</html>
-
-
