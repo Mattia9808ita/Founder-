@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Forze dell'Ordine</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Roleplay Database</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Schermata di Login -->
-    <div id="login-screen" class="screen">
-        <h1>Accedi al Database</h1>
-        <form id="login-form" onsubmit="login(); return false;">
-            <input type="text" id="username" placeholder="Nome Utente" required>
-            <input type="text" id="rp-name" placeholder="Nome RP" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Accedi</button>
-        </form>
-    </div>
-
-    <!-- Schermata di caricamento -->
-    <div id="loading-screen" class="screen">
-        <p>Accesso al database in corso...</p>
-    </div>
-
-    <!-- Schermata principale -->
-    <div id="main-content" class="screen" style="display: none;">
-        <div class="sidebar">
-            <ul>
-                <li><button onclick="showSection('database')">Database</button></li>
-                <li><button onclick="showSection('reports')">Rapporti</button></li>
-                <li><button onclick="showSection('penal-code')">Codice Penale</button></li>
-                <li><button onclick="showSection('traffic-code')">Codice Stradale</button></li>
-                <li><button onclick="showSection('complaints')">Denunce</button></li>
-            </ul>
+    <header class="hero">
+        <div class="container">
+            <h1>Roleplay Database</h1>
+            <p>Gestione avanzata per le forze dell'ordine nei giochi di ruolo</p>
         </div>
-        <div class="content">
-            <!-- Sezione Database -->
-            <div id="database" class="section show">
-                <h2>Sezione Database</h2>
-                <input type="text" id="search" placeholder="Cerca Scheda...">
-                <ul id="database-list"></ul>
-                <button onclick="showAddForm()">Aggiungi Scheda</button>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Funzionalità</a></li>
+            <li><a href="#contact">Contatti</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="home" class="section">
+            <div class="container">
+                <h2>Benvenuto</h2>
+                <p>Roleplay Database è il tuo strumento definitivo per gestire e archiviare dati cruciali nei giochi di ruolo legati alle forze dell'ordine.</p>
             </div>
+        </section>
+        <section id="features" class="section">
+            <div class="container">
+                <h2>Funzionalità principali</h2>
+                <ul>
+                    <li>Gestione di profili utente</li>
+                    <li>Accesso a database centralizzati</li>
+                    <li>Interfaccia personalizzabile</li>
+                </ul>
+            </div>
+        </section>
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contattaci</h2>
+                <form id="contact-form">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
 
-            <!-- Modulo per aggiungere una nuova scheda -->
-            <div id="add-form" class="add-form">
-                <h3>Aggiungi Scheda</h3>
-                <form id="record-form">
-                    <input type="text" id="fullName" placeholder="Nome Completo" required>
-                    <input type="date" id="birthDate" placeholder="Data di Nascita" required>
-                    <input type="text" id="birthPlace" placeholder="Luogo di Nascita" required>
-                    <input type="text" id="residence" placeholder="Comune di Residenza" required>
-                    <textarea id="penalties" placeholder="Precedenti Penali" required></textarea>
-                    <textarea id="trafficOffenses" placeholder="Reati Stradali" required></textarea>
-                    <button type="submit">Salva</button>
-                    <button type="button" onclick="closeAddForm()">Annulla</button>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Messaggio:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                    <button type="submit">Invia</button>
                 </form>
             </div>
-
-            <!-- Modale per visualizzare i dettagli di una scheda -->
-            <div id="info-modal" class="info-modal">
-                <div id="info-details"></div>
-                <button onclick="closeModal()">Chiudi</button>
-            </div>
-        </div>
-    </div>
-
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Roleplay Database. Creato da [Il Tuo Nome]</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
+
