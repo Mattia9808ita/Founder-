@@ -1,63 +1,78 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forze dell'Ordine - Database</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Forze dell'Ordine</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Database Forze dell'Ordine</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">Chi Siamo</a></li>
-                <li><a href="#login">Accedi</a></li>
-                <li><a href="#data">Dati</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <h2>Benvenuto nel Database per le Forze dell'Ordine</h2>
-            <p>Accedi per visualizzare e gestire i dati sensibili.</p>
-        </section>
-        <section id="about">
-            <h2>Chi Siamo</h2>
-            <p>Questo progetto offre un database sicuro per la gestione delle informazioni delle forze dell'ordine.</p>
-        </section>
-        <section id="login">
-            <h2>Login</h2>
-            <form id="loginForm" action="#" method="POST">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Accedi</button>
-            </form>
-            <p id="loginError" style="color: red; display: none;">Credenziali non valide!</p>
-        </section>
-        <section id="data" style="display:none;">
-            <h2>Dati del Database</h2>
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Ruolo</th>
-                        <th>Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- I dati saranno inseriti qui dinamicamente -->
-                </tbody>
-            </table>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Forze dell'Ordine - Tutti i diritti riservati</p>
-    </footer>
+  <!-- Login Page -->
+  <div id="login-screen" class="screen">
+    <h1>Login</h1>
+    <form id="login-form">
+      <label for="username">Nome Utente</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="rp-name">Nome RP</label>
+      <input type="text" id="rp-name" name="rp-name" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      
+      <button type="submit">Accedi</button>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="screen" style="display: none;">
+    <div id="loading-screen" class="loading">
+      <h2>Accesso al database in corso...</h2>
+    </div>
+
+    <div id="main-content" style="display: none;">
+      <aside id="user-list">
+        <h3>Utenti Online</h3>
+        <ul id="user-list-items">
+          <!-- User list will be dynamically populated -->
+        </ul>
+      </aside>
+
+      <div id="sections">
+        <button onclick="showSection('informazioni')">Informazioni</button>
+        <button onclick="showSection('rapporti')">Rapporti e Documentazione</button>
+        <button onclick="showSection('codice-penale')">Codice Penale/Stradale</button>
+        <button onclick="showSection('denunce')">Denunce</button>
+      </div>
+
+      <!-- Informazioni Section -->
+      <div id="informazioni" class="section" style="display: none;">
+        <h2>Informazioni</h2>
+        <button onclick="showSubSection('database')">Database</button>
+        <button onclick="showSubSection('mandati')">Mandati</button>
+      </div>
+
+      <!-- Rapporti Section -->
+      <div id="rapporti" class="section" style="display: none;">
+        <h2>Rapporti e Documentazione</h2>
+        <button onclick="showSubSection('fine-intervento')">Rapporto di Fine Intervento</button>
+        <button onclick="showSubSection('fine-turno')">Rapporto di Fine Turno</button>
+      </div>
+
+      <!-- Codice Penale/Stradale Section -->
+      <div id="codice-penale" class="section" style="display: none;">
+        <h2>Codice Penale/Stradale</h2>
+        <button onclick="showSubSection('codice-penale')">Codice Penale</button>
+        <button onclick="showSubSection('codice-stradale')">Codice Stradale</button>
+      </div>
+
+      <!-- Denunce Section -->
+      <div id="denunce" class="section" style="display: none;">
+        <h2>Denunce</h2>
+        <button onclick="addDenuncia()">Aggiungi Denuncia</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
