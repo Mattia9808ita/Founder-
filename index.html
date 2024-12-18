@@ -1,54 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Law Enforcement Database</title>
+    <title>Database Forze dell'Ordine</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Law Enforcement Database</h1>
+        <h1>Database Forze dell'Ordine</h1>
         <nav>
-            <a href="#officer-search">Search Officers</a>
-            <a href="#criminal-records">Criminal Records</a>
-            <a href="#add-record">Add Record</a>
+            <a href="#ricerca-agenti">Cerca Agenti</a>
+            <a href="#registri-criminali">Registri Criminali</a>
+            <a href="#aggiungi-registro">Aggiungi Registro</a>
         </nav>
     </header>
     <main>
-        <section id="officer-search">
-            <h2>Search Officers</h2>
-            <input type="text" id="officer-name" placeholder="Enter officer's name...">
-            <button onclick="searchOfficer()">Search</button>
-            <ul id="officer-results"></ul>
+        <section id="ricerca-agenti">
+            <h2>Cerca Agenti</h2>
+            <input type="text" id="nome-agente" placeholder="Inserisci il nome dell'agente...">
+            <button onclick="cercaAgente()">Cerca</button>
+            <ul id="risultati-agenti"></ul>
         </section>
-        <section id="criminal-records">
-            <h2>Criminal Records</h2>
-            <button onclick="loadRecords()">View Records</button>
-            <table id="records-table">
+        <section id="registri-criminali">
+            <h2>Registri Criminali</h2>
+            <button onclick="caricaRegistri()">Visualizza Registri</button>
+            <table id="tabella-registri">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Crime</th>
-                        <th>Date</th>
+                        <th>Nome</th>
+                        <th>Crimine</th>
+                        <th>Data</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
         </section>
-        <section id="add-record">
-            <h2>Add Record</h2>
-            <form id="record-form">
-                <input type="text" id="criminal-name" placeholder="Criminal's Name" required>
-                <input type="text" id="crime" placeholder="Crime Committed" required>
-                <input type="date" id="crime-date" required>
-                <button type="submit">Add Record</button>
+        <section id="aggiungi-registro">
+            <h2>Aggiungi Registro</h2>
+            <form id="form-registro">
+                <input type="text" id="nome-criminale" placeholder="Nome del Criminale" required>
+                <input type="text" id="crimine" placeholder="Crimine Commisso" required>
+                <input type="date" id="data-crimine" required>
+                <button type="submit">Aggiungi Registro</button>
             </form>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Law Enforcement Database</p>
+        <p>&copy; 2024 Database Forze dell'Ordine</p>
     </footer>
     <script src="script.js"></script>
 </body>
