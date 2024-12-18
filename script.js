@@ -81,8 +81,13 @@ function renderRecords() {
     records.forEach(record => {
         const listItem = document.createElement("li");
         listItem.className = "record-item";
-        listItem.innerHTML = `<strong>${record.fullName}</strong><br>Creato da: ${record.createdBy}`;
-        listItem.onclick = () => showRecordDetails(record.id);
+        listItem.innerHTML = `
+            <strong>${record.fullName}</strong><br>
+            Creato da: ${record.createdBy}<br>
+            <button onclick="showRecordDetails(${record.id})">Dettagli</button>
+            <button onclick="editRecord(${record.id})">Modifica</button>
+            <button onclick="deleteRecord(${record.id})">Elimina</button>
+        `;
         recordList.appendChild(listItem);
     });
 }
@@ -123,8 +128,64 @@ document.getElementById("search").addEventListener("input", function() {
     filteredRecords.forEach(record => {
         const listItem = document.createElement("li");
         listItem.className = "record-item";
-        listItem.innerHTML = `<strong>${record.fullName}</strong><br>Creato da: ${record.createdBy}`;
-        listItem.onclick = () => showRecordDetails(record.id);
+        listItem.innerHTML = `
+            <strong>${record.fullName}</strong><br>
+            Creato da: ${record.createdBy}<br>
+            <button onclick="showRecordDetails(${record.id})">Dettagli</button>
+            <button onclick="editRecord(${record.id})">Modifica</button>
+            <button onclick="deleteRecord(${record.id})">Elimina</button>
+        `;
         recordList.appendChild(listItem);
     });
 });
+
+// Funzione per modificare una scheda
+function editRecord(id) {
+    const record = records.find(r => r.id === id);
+    if (record) {
+        document.getElementById("fullName").value = record.fullName;
+        document.getElementById("birthDate").value = record.birthDate;
+        document.getElementById("birthPlace").value = record.birthPlace;
+        document.getElementById("residence").value = record.residence;
+        document.getElementById("penalties").value = record.penalties;
+        document.getElementById("trafficOffenses").value = record.trafficOffenses;
+        document.getElementById("record-form").onsubmit = function(e) {
+            e.preventDefault();
+            updateRecord(id);
+        };
+        showAddForm();
+    }
+}
+
+// Funzione per aggiornare la scheda
+function updateRecord(id) {
+    const record = records.find(r => r.id === id);
+    const fullName = document.getElementById("fullName").value;
+    const birthDate = document.getElementById("birthDate").value;
+    const birthPlace = document.getElementById("birthPlace").value;
+    const residence = document.getElementById("residence").value;
+    const penalties = document.getElementById("penalties").value;
+    const trafficOffenses = document.getElementById("trafficOffenses").value;
+
+    if (fullName && birthDate && birthPlace && residence && penalties && trafficOffenses) {
+        record.fullName = fullName;
+        record.birthDate = birthDate;
+        record.birthPlace = birthPlace;
+        record.residence = residence;
+        record.penalties = penalties;
+        record.trafficOffenses = trafficOffenses;
+
+        closeAddForm();
+        renderRecords();
+    } else {
+        alert("Per favore, completa tutti i campi del modulo.");
+    }
+}
+
+// Funzione per eliminare una scheda
+function deleteRecord(id) {
+    if (confirm("Sei sicuro di voler eliminare questa scheda?")) {
+        records = records.filter(record => record.id !== id);
+        renderRecords();
+    }
+}
