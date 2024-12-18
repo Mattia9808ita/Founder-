@@ -180,3 +180,18 @@ button:hover {
   background-color: #0056b3;
 }
 
+/* Style for the list of database items */
+#database-list li {
+  cursor: pointer;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+#database-list li:hover {
+  background-color: #e0e0e0;
+}
+
+
