@@ -9,18 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// Mostra il modulo di login
 function mostraLogin() {
     document.getElementById('login-registrazione').style.display = 'none';
     document.getElementById('login').style.display = 'block';
     document.getElementById('registrazione').style.display = 'none';
 }
 
+// Mostra il modulo di registrazione
 function mostraRegistrazione() {
     document.getElementById('login-registrazione').style.display = 'none';
     document.getElementById('login').style.display = 'none';
     document.getElementById('registrazione').style.display = 'block';
 }
 
+// Mostra il database dopo il login
 function mostraDatabase() {
     document.getElementById('login-registrazione').style.display = 'none';
     document.getElementById('login').style.display = 'none';
@@ -28,12 +31,45 @@ function mostraDatabase() {
     document.getElementById('database').style.display = 'block';
 }
 
+// Logout
 function logout() {
     localStorage.removeItem('utenteLoggato');
     location.reload();
 }
 
-document.getElementById('form-registro').addEventListener('submit', function (event) {
+// Gestione della registrazione
+document.getElementById('form-registrazione').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('reg-username').value;
+    const password = document.getElementById('reg-password').value;
+
+    if (localStorage.getItem(username)) {
+        document.getElementById('reg-messaggio').textContent = "Nome utente già registrato!";
+    } else {
+        localStorage.setItem(username, password);
+        document.getElementById('reg-messaggio').textContent = "Registrazione completata con successo!";
+        document.getElementById('form-registrazione').reset();
+        mostraLogin();
+    }
+});
+
+// Gestione del login
+document.getElementById('form-login').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    const savedPassword = localStorage.getItem(username);
+    if (savedPassword && savedPassword === password) {
+        localStorage.setItem('utenteLoggato', username);
+        mostraDatabase();
+    } else {
+        document.getElementById('login-messaggio').textContent = "Nome utente o password errati!";
+    }
+});
+
+// Gestione della registrazione
+document.getElementById('form-registro').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const registro = {
@@ -53,6 +89,7 @@ document.getElementById('form-registro').addEventListener('submit', function (ev
     mostraRegistri();
 });
 
+// Funzione per visualizzare i registri
 function mostraRegistri() {
     const lista = document.getElementById('lista-registri');
     lista.innerHTML = registri.map(registro => `
