@@ -1,108 +1,76 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Database Forze dell'Ordine</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Sicurezza</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Login Page -->
-  <div id="login-screen" class="screen">
-    <h1>Login</h1>
-    <form id="login-form">
-      <label for="username">Nome Utente</label>
-      <input type="text" id="username" name="username" required>
-      
-      <label for="rp-name">Nome RP</label>
-      <input type="text" id="rp-name" name="rp-name" required>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-      
-      <button type="submit">Accedi</button>
-    </form>
-  </div>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Database Sicurezza - Forze dell'Ordine</h1>
+        </header>
 
-  <!-- Dashboard -->
-  <div id="dashboard" class="screen" style="display: none;">
-    <div id="loading-screen" class="loading">
-      <h2>Accesso al database in corso...</h2>
+        <!-- Login Form -->
+        <div id="login-form">
+            <h2>Accesso al sistema</h2>
+            <input type="text" id="username" placeholder="Nome Utente">
+            <input type="text" id="rpname" placeholder="Nome RP">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Accedi</button>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <p>Accesso al database in corso...</p>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main-content">
+            <div id="dashboard">
+                <button onclick="showSection('database')">Database</button>
+                <button onclick="showSection('reports')">Rapporti e Documentazione</button>
+                <button onclick="showSection('codes')">Codice Penale/Stradale</button>
+                <button onclick="showSection('denunciations')">Denunce</button>
+            </div>
+
+            <!-- Database Section -->
+            <div id="database" class="section">
+                <h2>Gestione Database</h2>
+                <input type="text" id="search" placeholder="Cerca Scheda...">
+                <button onclick="showAddForm()">Aggiungi Scheda</button>
+                <ul id="database-list"></ul>
+                <div class="back-button">
+                    <a href="#" onclick="backToDashboard()">Torna alla schermata principale</a>
+                </div>
+            </div>
+
+            <!-- Add New Entry Form -->
+            <div id="add-form" class="section">
+                <h2>Aggiungi una nuova scheda</h2>
+                <input type="text" id="fullName" placeholder="Nome Completo">
+                <input type="date" id="birthDate" placeholder="Data di Nascita">
+                <input type="text" id="birthPlace" placeholder="Luogo di Nascita">
+                <input type="text" id="residence" placeholder="Comune di Residenza">
+                <input type="text" id="penalties" placeholder="Precedenti Penali">
+                <input type="text" id="trafficOffenses" placeholder="Reati Stradali">
+                <button onclick="saveRecord()">Salva</button>
+            </div>
+
+            <!-- Modal for Viewing Record -->
+            <div id="info-modal" class="section">
+                <div id="info-content">
+                    <p id="info-details"></p>
+                    <button onclick="closeModal()">Chiudi</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="main-content" style="display: none;">
-      <aside id="user-list">
-        <h3>Utenti Online</h3>
-        <ul id="user-list-items">
-          <!-- User list will be dynamically populated -->
-        </ul>
-      </aside>
-
-      <div id="sections">
-        <button onclick="showSection('informazioni')">Informazioni</button>
-        <button onclick="showSection('rapporti')">Rapporti e Documentazione</button>
-        <button onclick="showSection('codice-penale')">Codice Penale/Stradale</button>
-        <button onclick="showSection('denunce')">Denunce</button>
-      </div>
-
-      <!-- Informazioni Section -->
-      <div id="informazioni" class="section" style="display: none;">
-        <h2>Informazioni</h2>
-        <button onclick="showSubSection('database')">Database</button>
-        <button onclick="showSubSection('mandati')">Mandati</button>
-      </div>
-
-<!-- Database Sub-Section -->
-<div id="database" class="subsection" style="display: none;">
-  <h2>Database</h2>
-  <button onclick="showAddForm()">Aggiungi Scheda</button>
-  <input type="text" id="search" placeholder="Cerca Scheda" oninput="searchDatabase()">
-  <ul id="database-list">
-    <!-- Schede create will appear here -->
-  </ul>
-  <button onclick="showSection('informazioni')">Torna Indietro</button>
-</div>
-
-<!-- Information Modal for Database -->
-<div id="info-modal" class="modal" style="display: none;">
-  <h3>Informazioni Scheda</h3>
-  <div id="info-content">
-    <!-- The details will be filled here dynamically -->
-  </div>
-  <button onclick="closeInfoModal()">Chiudi</button>
-</div>
-
-<!-- Add Form -->
-<div id="add-form" class="form-container">
-  <form id="form-scheda">
-    <label for="nome-completo">Nome Completo</label>
-    <input type="text" id="nome-completo" required>
-
-    <label for="data-nascita">Data di Nascita</label>
-    <input type="date" id="data-nascita" required>
-
-    <label for="luogo-nascita">Luogo di Nascita</label>
-    <input type="text" id="luogo-nascita" required>
-
-    <label for="comune-residenza">Comune di Residenza</label>
-    <input type="text" id="comune-residenza" required>
-
-    <label for="precedenti-penali">Precedenti Penali</label>
-    <input type="text" id="precedenti-penali">
-
-    <label for="reati-stradali">Reati Stradali</label>
-    <input type="text" id="reati-stradali">
-
-    <button type="submit">Salva</button>
-  </form>
-  <button onclick="closeAddForm()">Annulla</button>
-</div>
-
-
-
-    </div>
-  </div>
-
-  <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
