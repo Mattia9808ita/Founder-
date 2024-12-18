@@ -1,124 +1,106 @@
-// Funzione di login simulato
-document.getElementById("login-form").addEventListener("submit", function(event) {
-  event.preventDefault();
+// Variabili globali
+let currentUser = null;
+let records = [];
 
-  // Simula login
-  const username = document.getElementById("username").value;
-  currentUser = username; // Imposta l'utente loggato
+// Funzione di login
+function login() {
+    const username = document.getElementById('username').value;
+    const rpname = document.getElementById('rpname').value;
+    const password = document.getElementById('password').value;
 
-  // Mostra la schermata di caricamento
-  document.getElementById("login-screen").style.display = "none";
-  document.getElementById("loading-screen").style.display = "block";
+    if (username && rpname && password) {
+        currentUser = { username, rpname };
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('loading-screen').style.display = 'block';
 
-  // Simula caricamento per 2 secondi
-  setTimeout(function() {
-    document.getElementById("loading-screen").style.display = "none";
-    document.getElementById("main-content").style.display = "block";
-    document.getElementById("dashboard").style.display = "block";
-  }, 2000);
-});
-
-// Funzione per mostrare una sezione
-function showSection(sectionId) {
-  const sections = document.querySelectorAll(".section");
-  sections.forEach(section => section.style.display = "none");
-
-  document.getElementById(sectionId).style.display = "block";
-}
-
-// Funzione per mostrare la sottosezione
-function showSubSection(subSectionId) {
-  const subSections = document.querySelectorAll(".subsection");
-  subSections.forEach(sub => sub.style.display = "none");
-
-  document.getElementById(subSectionId).style.display = "block";
-}
-
-// Mostra il form per aggiungere una nuova scheda
-function showAddForm() {
-  document.getElementById("add-form").classList.add('show');
-}
-
-// Chiudi il form di aggiunta
-function closeAddForm() {
-  document.getElementById("add-form").classList.remove('show');
-}
-
-// Aggiungi una nuova scheda al database
-document.getElementById("form-scheda").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  // Ottieni i dati dal modulo
-  const nomeCompleto = document.getElementById("nome-completo").value;
-  const dataNascita = document.getElementById("data-nascita").value;
-  const luogoNascita = document.getElementById("luogo-nascita").value;
-  const comuneResidenza = document.getElementById("comune-residenza").value;
-  const precedentiPenali = document.getElementById("precedenti-penali").value;
-  const reatiStradali = document.getElementById("reati-stradali").value;
-
-  // Creiamo l'oggetto con i dati
-  const newItem = {
-    nomeCompleto,
-    dataNascita,
-    luogoNascita,
-    comuneResidenza,
-    precedentiPenali,
-    reatiStradali,
-    createdBy: currentUser // Nome utente che ha creato la scheda
-  };
-
-  // Crea una nuova lista con la scheda
-  const newListItem = document.createElement("li");
-  newListItem.textContent = nomeCompleto;
-
-  // Aggiungi un evento di click per aprire il modal con le informazioni
-  newListItem.addEventListener("click", function() {
-    showInfoModal(newItem);
-  });
-
-  // Aggiungi la scheda alla lista del database
-  document.getElementById("database-list").appendChild(newListItem);
-
-  // Chiudi il form dopo aver salvato la scheda
-  closeAddForm();
-});
-
-// Mostra il modal con i dettagli della scheda
-function showInfoModal(item) {
-  const modal = document.getElementById("info-modal");
-  const infoContent = document.getElementById("info-content");
-
-  // Popola il modal con le informazioni della scheda
-  infoContent.innerHTML = `
-    <p><strong>Nome Completo:</strong> ${item.nomeCompleto}</p>
-    <p><strong>Data di Nascita:</strong> ${item.dataNascita}</p>
-    <p><strong>Luogo di Nascita:</strong> ${item.luogoNascita}</p>
-    <p><strong>Comune di Residenza:</strong> ${item.comuneResidenza}</p>
-    <p><strong>Precedenti Penali:</strong> ${item.precedentiPenali}</p>
-    <p><strong>Reati Stradali:</strong> ${item.reatiStradali}</p>
-    <p><strong>Creato da:</strong> ${item.createdBy}</p> <!-- Mostra solo l'utente che ha creato la scheda -->
-  `;
-
-  // Mostra il modal
-  modal.style.display = "block";
-}
-
-// Chiudi il modal delle informazioni
-function closeInfoModal() {
-  document.getElementById("info-modal").style.display = "none";
-}
-
-// Funzione per cercare una scheda
-function searchDatabase() {
-  const query = document.getElementById("search").value.toLowerCase();
-  const items = document.querySelectorAll("#database-list li");
-
-  items.forEach(item => {
-    const text = item.textContent.toLowerCase();
-    if (text.includes(query)) {
-      item.style.display = "";
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }, 2000);
     } else {
-      item.style.display = "none";
+        alert("Compila tutti i campi.");
     }
-  });
+}
+
+// Funzione per cambiare sezione
+function showSection(section) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.classList.remove('show'));
+
+    document.getElementById(section).classList.add('show');
+}
+
+// Funzione per tornare alla schermata principale
+function backToDashboard() {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.classList.remove('show'));
+    document.getElementById('dashboard').classList.add('show');
+}
+
+// Funzione per mostrare il modulo di aggiunta
+function showAddForm() {
+    document.getElementById('add-form').classList.add('show');
+}
+
+// Funzione per salvare un record
+function saveRecord() {
+    const fullName = document.getElementById('fullName').value;
+    const birthDate = document.getElementById('birthDate').value;
+    const birthPlace = document.getElementById('birthPlace').value;
+    const residence = document.getElementById('residence').value;
+    const penalties = document.getElementById('penalties').value;
+    const trafficOffenses = document.getElementById('trafficOffenses').value;
+
+    if (fullName && birthDate && birthPlace && residence && penalties && trafficOffenses) {
+        const record = {
+            fullName,
+            birthDate,
+            birthPlace,
+            residence,
+            penalties,
+            trafficOffenses,
+            creator: currentUser.username
+        };
+
+        records.push(record);
+        document.getElementById('add-form').classList.remove('show');
+        displayRecords();
+    } else {
+        alert("Compila tutti i campi.");
+    }
+}
+
+// Funzione per visualizzare i record
+function displayRecords() {
+    const databaseList = document.getElementById('database-list');
+    databaseList.innerHTML = '';
+    records.forEach(record => {
+        const li = document.createElement('li');
+        li.textContent = record.fullName;
+        li.onclick = () => showRecordInfo(record);
+        databaseList.appendChild(li);
+    });
+}
+
+// Funzione per mostrare i dettagli di un record
+function showRecordInfo(record) {
+    const modal = document.getElementById('info-modal');
+    const infoContent = document.getElementById('info-details');
+
+    infoContent.innerHTML = `
+        <strong>Nome Completo:</strong> ${record.fullName} <br>
+        <strong>Data di Nascita:</strong> ${record.birthDate} <br>
+        <strong>Luogo di Nascita:</strong> ${record.birthPlace} <br>
+        <strong>Comune di Residenza:</strong> ${record.residence} <br>
+        <strong>Precedenti Penali:</strong> ${record.penalties} <br>
+        <strong>Reati Stradali:</strong> ${record.trafficOffenses} <br>
+        <strong>Creato da:</strong> ${record.creator}
+    `;
+
+    modal.style.display = 'flex';
+}
+
+// Funzione per chiudere il modal
+function closeModal() {
+    document.getElementById('info-modal').style.display = 'none';
 }
