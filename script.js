@@ -1,31 +1,34 @@
-const officers = ["John Doe", "Jane Smith", "Jake Peralta"];
-const records = [];
+const agenti = ["Mario Rossi", "Luca Bianchi", "Giulia Verdi"];
+const registri = [];
 
-function searchOfficer() {
-    const name = document.getElementById('officer-name').value.toLowerCase();
-    const results = officers.filter(officer => officer.toLowerCase().includes(name));
-    const resultsList = document.getElementById('officer-results');
-    resultsList.innerHTML = results.length ? results.map(r => `<li>${r}</li>`).join('') : '<li>No results found</li>';
+function cercaAgente() {
+    const nome = document.getElementById('nome-agente').value.toLowerCase();
+    const risultati = agenti.filter(agente => agente.toLowerCase().includes(nome));
+    const listaRisultati = document.getElementById('risultati-agenti');
+    listaRisultati.innerHTML = risultati.length 
+        ? risultati.map(r => `<li>${r}</li>`).join('') 
+        : '<li>Nessun risultato trovato</li>';
 }
 
-function loadRecords() {
-    const tableBody = document.getElementById('records-table').querySelector('tbody');
-    tableBody.innerHTML = records.length 
-        ? records.map(record => `
+function caricaRegistri() {
+    const corpoTabella = document.getElementById('tabella-registri').querySelector('tbody');
+    corpoTabella.innerHTML = registri.length 
+        ? registri.map(registro => `
             <tr>
-                <td>${record.name}</td>
-                <td>${record.crime}</td>
-                <td>${record.date}</td>
+                <td>${registro.nome}</td>
+                <td>${registro.crimine}</td>
+                <td>${registro.data}</td>
             </tr>`).join('') 
-        : '<tr><td colspan="3">No records found</td></tr>';
+        : '<tr><td colspan="3">Nessun registro trovato</td></tr>';
 }
 
-document.getElementById('record-form').addEventListener('submit', function(event) {
+document.getElementById('form-registro').addEventListener('submit', function(event) {
     event.preventDefault();
-    const name = document.getElementById('criminal-name').value;
-    const crime = document.getElementById('crime').value;
-    const date = document.getElementById('crime-date').value;
-    records.push({ name, crime, date });
-    document.getElementById('record-form').reset();
-    alert('Record added successfully!');
+    const nome = document.getElementById('nome-criminale').value;
+    const crimine = document.getElementById('crimine').value;
+    const data = document.getElementById('data-crimine').value;
+    registri.push({ nome, crimine, data });
+    document.getElementById('form-registro').reset();
+    alert('Registro aggiunto con successo!');
 });
+
