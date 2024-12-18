@@ -3,42 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Police Database</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Forze dell'Ordine - Database</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
 </head>
 <body>
     <header>
-        <h1>Benvenuti nel Database delle Forze dell'Ordine</h1>
+        <h1>Database Forze dell'Ordine</h1>
         <nav>
             <ul>
-                <li><a href="#criminali">Criminali</a></li>
-                <li><a href="#indagini">Indagini</a></li>
-                <li><a href="#personale">Personale</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Chi Siamo</a></li>
+                <li><a href="#login">Accedi</a></li>
+                <li><a href="#data">Dati</a></li>
             </ul>
         </nav>
     </header>
-
-    <section id="criminali">
-        <h2>Criminali Ricercati</h2>
-        <table id="criminali-table">
-            <!-- I dati dei criminali verranno caricati qui -->
-        </table>
-    </section>
-
-    <section id="indagini">
-        <h2>Indagini in Corso</h2>
-        <table id="indagini-table">
-            <!-- I dati delle indagini verranno caricati qui -->
-        </table>
-    </section>
-
-    <section id="personale">
-        <h2>Personale di Polizia</h2>
-        <table id="personale-table">
-            <!-- I dati del personale verranno caricati qui -->
-        </table>
-    </section>
-
-    <script src="app.js"></script>
+    <main>
+        <section id="home">
+            <h2>Benvenuto nel Database per le Forze dell'Ordine</h2>
+            <p>Accedi per visualizzare e gestire i dati sensibili.</p>
+        </section>
+        <section id="about">
+            <h2>Chi Siamo</h2>
+            <p>Questo progetto offre un database sicuro per la gestione delle informazioni delle forze dell'ordine.</p>
+        </section>
+        <section id="login">
+            <h2>Login</h2>
+            <form id="loginForm" action="#" method="POST">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Accedi</button>
+            </form>
+            <p id="loginError" style="color: red; display: none;">Credenziali non valide!</p>
+        </section>
+        <section id="data" style="display:none;">
+            <h2>Dati del Database</h2>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Ruolo</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- I dati saranno inseriti qui dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Forze dell'Ordine - Tutti i diritti riservati</p>
+    </footer>
 </body>
 </html>
