@@ -1,179 +1,135 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forze dell'Ordine - Database Roleplay</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_sqlalchemy import SQLAlchemy
+from functools import wraps
 
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1em 0;
-        }
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
 
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1em;
-        }
+# Models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+    role = db.Column(db.String(10), nullable=False, default='user')
 
-        header h1 {
-            margin: 0;
-            font-size: 1.8em;
-        }
+class Case(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='In sospeso')
+    created_by = db.Column(db.String(20), nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.now())
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
+class ActivityLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    action = db.Column(db.String(100), nullable=False)
+    user = db.Column(db.String(20), nullable=False)
+    timestamp = db.Column(db.DateTime, default=db.func.now())
 
-        nav ul li {
-            margin-left: 1em;
-        }
+# Decorators
+def role_required(role):
+    def decorator(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if 'username' not in session or session.get('role') != role:
+                flash('Accesso non autorizzato.', 'danger')
+                return redirect(url_for('login'))
+            return f(*args, **kwargs)
+        return wrapped
+    return decorator
 
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-        }
+# Routes
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username, password=password).first()
+        if user:
+            session['username'] = user.username
+            session['role'] = user.role
+            flash('Login effettuato con successo.', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Credenziali non valide.', 'danger')
+    return render_template('login.html')
 
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash('Logout effettuato con successo.', 'success')
+    return redirect(url_for('login'))
 
-        .section {
-            padding: 2em 1em;
-        }
+@app.route("/dashboard")
+def dashboard():
+    if 'username' not in session:
+        flash('Devi effettuare il login per accedere al dashboard.', 'warning')
+        return redirect(url_for('login'))
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1em;
-        }
+    cases_count = Case.query.count()
+    resolved_cases = Case.query.filter_by(status="Risolto").count()
+    pending_cases = Case.query.filter_by(status="In sospeso").count()
 
-        h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 0.5em;
-        }
+    return render_template("dashboard.html", 
+                           cases_count=cases_count, 
+                           resolved_cases=resolved_cases, 
+                           pending_cases=pending_cases)
 
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 1em 0;
-            margin-top: 2em;
-        }
+@app.route("/cases", methods=['GET', 'POST'])
+def cases():
+    if 'username' not in session:
+        flash('Devi effettuare il login.', 'warning')
+        return redirect(url_for('login'))
 
-        footer p {
-            margin: 0;
-        }
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        new_case = Case(title=title, description=description, created_by=session['username'])
+        db.session.add(new_case)
+        db.session.commit()
 
-        #criminal-table, #units, #armory, #reports, #map {
-            background-color: white;
-            border: 1px solid #ddd;
-            padding: 1em;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+        log = ActivityLog(action=f"Caso '{title}' creato", user=session['username'])
+        db.session.add(log)
+        db.session.commit()
 
-        #criminal-table p, #units p, #armory p, #reports p, #map p {
-            margin: 0;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Database delle Forze dell'Ordine</h1>
-            <nav>
-                <ul>
-                    <li><a href="#criminali">Database Criminale</a></li>
-                    <li><a href="#unita">Unit&agrave; Operative</a></li>
-                    <li><a href="#armeria">Armeria</a></li>
-                    <li><a href="#rapporti">Rapporti</a></li>
-                    <li><a href="#mappa">Mappa Interattiva</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        flash('Caso aggiunto con successo!', 'success')
+        return redirect(url_for('cases'))
 
-    <main>
-        <section id="criminali" class="section">
-            <div class="container">
-                <h2>Database Criminale</h2>
-                <p>Consulta i dati sui sospetti, criminali e organizzazioni note.</p>
-                <!-- Criminals table placeholder -->
-                <div id="criminal-table">
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+    all_cases = Case.query.all()
+    return render_template("cases.html", cases=all_cases)
 
-        <section id="unita" class="section">
-            <div class="container">
-                <h2>Unit&agrave; Operative</h2>
-                <p>Elenco delle unit&agrave; di polizia e squadre speciali.</p>
-                <!-- Units placeholder -->
-                <div id="units">
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+@app.route("/manage_users", methods=['GET', 'POST'])
+@role_required('admin')
+def manage_users():
+    users = User.query.all()
 
-        <section id="armeria" class="section">
-            <div class="container">
-                <h2>Armeria</h2>
-                <p>Consulta l'inventario delle armi e attrezzature disponibili.</p>
-                <!-- Armory placeholder -->
-                <div id="armory">
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        new_role = request.form.get('role')
+        user = User.query.get(user_id)
+        if user:
+            user.role = new_role
+            db.session.commit()
 
-        <section id="rapporti" class="section">
-            <div class="container">
-                <h2>Rapporti e Documenti</h2>
-                <p>Archiviazione di rapporti ufficiali e indagini in corso.</p>
-                <!-- Reports placeholder -->
-                <div id="reports">
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
+            log = ActivityLog(action=f"Ruolo di {user.username} aggiornato a {new_role}", user=session['username'])
+            db.session.add(log)
+            db.session.commit()
 
-        <section id="mappa" class="section">
-            <div class="container">
-                <h2>Mappa Interattiva</h2>
-                <p>Visualizza le zone di interesse e i crimini segnalati.</p>
-                <!-- Map placeholder -->
-                <div id="map">
-                    <p><em>Funzionalità in costruzione...</em></p>
-                </div>
-            </div>
-        </section>
-    </main>
+            flash(f"Ruolo di {user.username} aggiornato a {new_role}.", 'success')
+        else:
+            flash("Utente non trovato.", 'danger')
+        return redirect(url_for('manage_users'))
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Database delle Forze dell'Ordine - Roleplay</p>
-        </div>
-    </footer>
-</body>
-</html>
+    return render_template("manage_users.html", users=users)
+
+@app.route("/logs")
+@role_required('admin')
+def logs():
+    logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
+    return render_template("logs.html", logs=logs)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
