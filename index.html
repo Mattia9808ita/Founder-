@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Database Forze dell'Ordine</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
 </head>
 <body>
   <!-- Login Page -->
@@ -53,26 +52,47 @@
         <button onclick="showSubSection('mandati')">Mandati</button>
       </div>
 
-      <!-- Rapporti Section -->
-      <div id="rapporti" class="section" style="display: none;">
-        <h2>Rapporti e Documentazione</h2>
-        <button onclick="showSubSection('fine-intervento')">Rapporto di Fine Intervento</button>
-        <button onclick="showSubSection('fine-turno')">Rapporto di Fine Turno</button>
+      <!-- Database Sub-Section -->
+      <div id="database" class="subsection" style="display: none;">
+        <h2>Database</h2>
+        <button onclick="showAddForm()">Aggiungi Scheda</button>
+        <input type="text" id="search" placeholder="Cerca Scheda" oninput="searchDatabase()">
+        <ul id="database-list">
+          <!-- Schede create will appear here -->
+        </ul>
+        <button onclick="showSection('informazioni')">Torna Indietro</button>
       </div>
 
-      <!-- Codice Penale/Stradale Section -->
-      <div id="codice-penale" class="section" style="display: none;">
-        <h2>Codice Penale/Stradale</h2>
-        <button onclick="showSubSection('codice-penale')">Codice Penale</button>
-        <button onclick="showSubSection('codice-stradale')">Codice Stradale</button>
+      <!-- Add Form Modal -->
+      <div id="add-form" class="modal" style="display: none;">
+        <h3>Compila i Dettagli della Scheda</h3>
+        <form id="form-scheda">
+          <label for="nome-completo">Nome Completo</label>
+          <input type="text" id="nome-completo" name="nome-completo" required>
+
+          <label for="data-nascita">Data di Nascita</label>
+          <input type="date" id="data-nascita" name="data-nascita" required>
+
+          <label for="luogo-nascita">Luogo di Nascita</label>
+          <input type="text" id="luogo-nascita" name="luogo-nascita" required>
+
+          <label for="comune-residenza">Comune di Residenza</label>
+          <input type="text" id="comune-residenza" name="comune-residenza" required>
+
+          <label for="precedenti-penali">Precedenti Penali</label>
+          <input type="text" id="precedenti-penali" name="precedenti-penali">
+
+          <label for="reati-stradali">Reati Stradali</label>
+          <input type="text" id="reati-stradali" name="reati-stradali">
+
+          <button type="submit">Salva</button>
+        </form>
+        <button onclick="closeAddForm()">Annulla</button>
       </div>
 
-      <!-- Denunce Section -->
-      <div id="denunce" class="section" style="display: none;">
-        <h2>Denunce</h2>
-        <button onclick="addDenuncia()">Aggiungi Denuncia</button>
-      </div>
     </div>
   </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
