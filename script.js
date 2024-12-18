@@ -39,6 +39,12 @@ document.getElementById("form-scheda").addEventListener("submit", function(event
   event.preventDefault();
 
   const nomeCompleto = document.getElementById("nome-completo").value;
+  const dataNascita = document.getElementById("data-nascita").value;
+  const luogoNascita = document.getElementById("luogo-nascita").value;
+  const comuneResidenza = document.getElementById("comune-residenza").value;
+  const precedentiPenali = document.getElementById("precedenti-penali").value;
+  const reatiStradali = document.getElementById("reati-stradali").value;
+
   const newListItem = document.createElement("li");
   newListItem.textContent = nomeCompleto;
 
