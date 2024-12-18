@@ -1,9 +1,12 @@
-let currentUser = "admin";  // Simuliamo un utente loggato (modifica se necessario)
-
+// Funzione di login simulato
 document.getElementById("login-form").addEventListener("submit", function(event) {
   event.preventDefault();
 
   // Simula login
+  const username = document.getElementById("username").value;
+  currentUser = username; // Imposta l'utente loggato
+
+  // Mostra la schermata di caricamento
   document.getElementById("login-screen").style.display = "none";
   document.getElementById("loading-screen").style.display = "block";
 
@@ -15,6 +18,7 @@ document.getElementById("login-form").addEventListener("submit", function(event)
   }, 2000);
 });
 
+// Funzione per mostrare una sezione
 function showSection(sectionId) {
   const sections = document.querySelectorAll(".section");
   sections.forEach(section => section.style.display = "none");
@@ -22,6 +26,7 @@ function showSection(sectionId) {
   document.getElementById(sectionId).style.display = "block";
 }
 
+// Funzione per mostrare la sottosezione
 function showSubSection(subSectionId) {
   const subSections = document.querySelectorAll(".subsection");
   subSections.forEach(sub => sub.style.display = "none");
@@ -29,17 +34,21 @@ function showSubSection(subSectionId) {
   document.getElementById(subSectionId).style.display = "block";
 }
 
+// Mostra il form per aggiungere una nuova scheda
 function showAddForm() {
   document.getElementById("add-form").classList.add('show');
 }
 
+// Chiudi il form di aggiunta
 function closeAddForm() {
   document.getElementById("add-form").classList.remove('show');
 }
 
+// Aggiungi una nuova scheda al database
 document.getElementById("form-scheda").addEventListener("submit", function(event) {
   event.preventDefault();
 
+  // Ottieni i dati dal modulo
   const nomeCompleto = document.getElementById("nome-completo").value;
   const dataNascita = document.getElementById("data-nascita").value;
   const luogoNascita = document.getElementById("luogo-nascita").value;
@@ -47,52 +56,59 @@ document.getElementById("form-scheda").addEventListener("submit", function(event
   const precedentiPenali = document.getElementById("precedenti-penali").value;
   const reatiStradali = document.getElementById("reati-stradali").value;
 
-  const newListItem = document.createElement("li");
-  newListItem.textContent = `${nomeCompleto} (Creato da: ${currentUser})`;
+  // Creiamo l'oggetto con i dati
+  const newItem = {
+    nomeCompleto,
+    dataNascita,
+    luogoNascita,
+    comuneResidenza,
+    precedentiPenali,
+    reatiStradali,
+    createdBy: currentUser // Nome utente che ha creato la scheda
+  };
 
-  // Attach click event to show the details of the created record
+  // Crea una nuova lista con la scheda
+  const newListItem = document.createElement("li");
+  newListItem.textContent = nomeCompleto;
+
+  // Aggiungi un evento di click per aprire il modal con le informazioni
   newListItem.addEventListener("click", function() {
-    showInfoModal({
-      nomeCompleto,
-      dataNascita,
-      luogoNascita,
-      comuneResidenza,
-      precedentiPenali,
-      reatiStradali,
-      createdBy: currentUser
-    });
+    showInfoModal(newItem);
   });
 
-  // Aggiungi la nuova scheda alla lista "Database"
+  // Aggiungi la scheda alla lista del database
   document.getElementById("database-list").appendChild(newListItem);
 
-  // Chiudi il modulo
+  // Chiudi il form dopo aver salvato la scheda
   closeAddForm();
 });
 
-function showInfoModal(info) {
+// Mostra il modal con i dettagli della scheda
+function showInfoModal(item) {
   const modal = document.getElementById("info-modal");
   const infoContent = document.getElementById("info-content");
 
-  // Popola il contenuto del modal con le informazioni della scheda
+  // Popola il modal con le informazioni della scheda
   infoContent.innerHTML = `
-    <p><strong>Nome Completo:</strong> ${info.nomeCompleto}</p>
-    <p><strong>Data di Nascita:</strong> ${info.dataNascita}</p>
-    <p><strong>Luogo di Nascita:</strong> ${info.luogoNascita}</p>
-    <p><strong>Comune di Residenza:</strong> ${info.comuneResidenza}</p>
-    <p><strong>Precedenti Penali:</strong> ${info.precedentiPenali}</p>
-    <p><strong>Reati Stradali:</strong> ${info.reatiStradali}</p>
-    <p><strong>Creato da:</strong> ${info.createdBy}</p>
+    <p><strong>Nome Completo:</strong> ${item.nomeCompleto}</p>
+    <p><strong>Data di Nascita:</strong> ${item.dataNascita}</p>
+    <p><strong>Luogo di Nascita:</strong> ${item.luogoNascita}</p>
+    <p><strong>Comune di Residenza:</strong> ${item.comuneResidenza}</p>
+    <p><strong>Precedenti Penali:</strong> ${item.precedentiPenali}</p>
+    <p><strong>Reati Stradali:</strong> ${item.reatiStradali}</p>
+    <p><strong>Creato da:</strong> ${item.createdBy}</p> <!-- Mostra solo l'utente che ha creato la scheda -->
   `;
 
   // Mostra il modal
   modal.style.display = "block";
 }
 
+// Chiudi il modal delle informazioni
 function closeInfoModal() {
   document.getElementById("info-modal").style.display = "none";
 }
 
+// Funzione per cercare una scheda
 function searchDatabase() {
   const query = document.getElementById("search").value.toLowerCase();
   const items = document.querySelectorAll("#database-list li");
