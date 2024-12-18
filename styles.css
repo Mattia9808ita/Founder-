@@ -1,62 +1,104 @@
-/* Global Styles */
-* {
+/* Generale */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-}
-
-/* Layout */
-.screen, .main-content, .section, .form-modal, .modal {
-    display: none;
-}
-
-.main-content {
+    background-color: #f4f4f4;
     display: flex;
     height: 100vh;
-    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.sidebar {
-    width: 250px;
-    background-color: #2c3e50;
+/* Schermata di Login */
+.screen {
+    display: none;
+    text-align: center;
     padding: 20px;
-    color: #ecf0f1;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+#login-screen {
+    display: block;
+}
+
+#login-form input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#login-form button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#login-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Caricamento */
+#loading-screen {
+    display: none;
+    font-size: 18px;
+    color: #007BFF;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar ul {
-    list-style: none;
+    list-style-type: none;
+    padding: 0;
 }
 
 .sidebar ul li {
-    margin-bottom: 15px;
+    margin: 10px 0;
 }
 
-.sidebar ul li a {
-    color: #ecf0f1;
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
+.sidebar ul li button {
+    background-color: #444;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.sidebar ul li a:hover {
-    color: #3498db;
+.sidebar ul li button:hover {
+    background-color: #007BFF;
 }
 
+/* Contenuto principale */
 .content {
-    flex: 1;
+    margin-left: 220px;
     padding: 20px;
-    overflow-y: auto;
+    flex-grow: 1;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .section {
@@ -67,173 +109,105 @@ body {
     display: block;
 }
 
-h1, h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+/* Aggiungi Scheda */
+.add-form {
+    display: none;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    margin: 0 auto;
 }
 
-/* Buttons */
-.btn {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.btn:hover {
-    background-color: #2980b9;
-}
-
-.search-bar {
-    margin: 20px 0;
-    padding: 10px;
+.add-form input, .add-form textarea {
     width: 100%;
-    font-size: 1rem;
-    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
     border: 1px solid #ccc;
 }
 
-/* List Styles */
-.record-list {
-    list-style: none;
+.add-form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-form button[type="button"] {
+    background-color: #dc3545;
+}
+
+.add-form button:hover {
+    background-color: #218838;
+}
+
+.add-form button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+/* Modal Dettagli */
+.info-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    width: 60%;
+}
+
+.info-modal button {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.info-modal button:hover {
+    background-color: #c82333;
+}
+
+#search {
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+/* Elenco Schede */
+#database-list {
+    list-style-type: none;
     padding: 0;
 }
 
 .record-item {
-    background-color: #ffffff;
+    background-color: #f9f9f9;
+    padding: 15px;
     margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.record-item:hover {
-    background-color: #ecf0f1;
-}
-
-.record-item strong {
-    font-size: 1.2rem;
-}
-
-/* Modal Styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    width: 400px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-/* Form Modal Styles */
-.form-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.form-content {
-    background: white;
-    padding: 20px;
-    width: 400px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-form button {
-    width: 100%;
-    padding: 10px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    background-color: #3498db;
-    color: white;
-}
-
-form button:hover {
-    background-color: #2980b9;
-}
-
-/* Display Loading and Login Screens */
-#loading-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-#login-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-}
-
-#login-form {
-    display: flex;
-    flex-direction: column;
-}
-
-#login-form input {
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-#login-form button {
-    padding: 10px;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    background-color: #3498db;
+.record-item button {
+    background-color: #007BFF;
     color: white;
     border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
     cursor: pointer;
+    border-radius: 4px;
 }
 
-#login-form button:hover {
-    background-color: #2980b9;
+.record-item button:hover {
+    background-color: #0056b3;
 }
