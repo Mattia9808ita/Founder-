@@ -1,38 +1,43 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const criminali = [
-        { nome: "Giovanni Rossi", crimine: "Furto", ricercato: true },
-        { nome: "Lucia Bianchi", crimine: "Assalto", ricercato: false }
-    ];
+// Simulazione di un database per l'esempio
+const fakeDatabase = [
+    { id: 1, name: "Giovanni Rossi", role: "Agente" },
+    { id: 2, name: "Francesca Bianchi", role: "Ispettore" },
+    { id: 3, name: "Marco Verdi", role: "Commissario" }
+];
 
-    const indagini = [
-        { caso: "Caso 001", stato: "In corso" },
-        { caso: "Caso 002", stato: "Chiuso" }
-    ];
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    const personale = [
-        { nome: "Marco Verdi", grado: "Sergente" },
-        { nome: "Laura Gialli", grado: "Capitano" }
-    ];
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    function caricaDati() {
-        const criminaliTable = document.getElementById('criminali-table');
-        criminali.forEach(criminale => {
-            let row = criminaliTable.insertRow();
-            row.innerHTML = `<td>${criminale.nome}</td><td>${criminale.crimine}</td><td>${criminale.ricercato ? "Sì" : "No"}</td>`;
-        });
-
-        const indaginiTable = document.getElementById('indagini-table');
-        indagini.forEach(indagine => {
-            let row = indaginiTable.insertRow();
-            row.innerHTML = `<td>${indagine.caso}</td><td>${indagine.stato}</td>`;
-        });
-
-        const personaleTable = document.getElementById('personale-table');
-        personale.forEach(poliziotto => {
-            let row = personaleTable.insertRow();
-            row.innerHTML = `<td>${poliziotto.nome}</td><td>${poliziotto.grado}</td>`;
-        });
+    // Simulazione login
+    if (username === 'admin' && password === 'admin123') {
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('data').style.display = 'block';
+        populateDataTable();
+    } else {
+        document.getElementById('loginError').style.display = 'block';
     }
-
-    caricaDati();
 });
+
+function populateDataTable() {
+    const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+    fakeDatabase.forEach(data => {
+        const row = tableBody.insertRow();
+        row.innerHTML = `
+            <td>${data.id}</td>
+            <td>${data.name}</td>
+            <td>${data.role}</td>
+            <td><button onclick="deleteRow(${data.id})">Elimina</button></td>
+        `;
+    });
+}
+
+function deleteRow(id) {
+    const index = fakeDatabase.findIndex(data => data.id === id);
+    if (index !== -1) {
+        fakeDatabase.splice(index, 1);
+        document.getElementById('dataTable').deleteRow(index + 1);
+    }
+}
