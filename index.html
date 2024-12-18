@@ -1,89 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Database Interforze</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .error {
-            color: red;
-            font-size: 0.9em;
-        }
-    </style>
+    <title>Database Sicurezza</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <div id="error-message" class="error"></div>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>Database Sicurezza</h1>
+                <p>Gestione Sicurezza Forze dell'Ordine</p>
+            </div>
+        </header>
+
+        <!-- Login Form -->
+        <div id="login-form" class="login-form">
+            <div class="form-container">
+                <h2>Accesso al Sistema</h2>
+                <input type="text" id="username" placeholder="Nome Utente" required>
+                <input type="text" id="rpname" placeholder="Nome RP" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button class="btn" onclick="login()">Accedi</button>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <p>Accesso al database in corso...</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main-content" class="main-content">
+            <div id="dashboard" class="dashboard">
+                <div class="section-buttons">
+                    <button class="btn" onclick="showSection('database')">Database</button>
+                    <button class="btn" onclick="showSection('reports')">Rapporti e Documentazione</button>
+                    <button class="btn" onclick="showSection('codes')">Codice Penale/Stradale</button>
+                    <button class="btn" onclick="showSection('denunciations')">Denunce</button>
+                </div>
+            </div>
+
+            <!-- Database Section -->
+            <div id="database" class="section">
+                <h2>Gestione Database</h2>
+                <div class="search-add">
+                    <input type="text" id="search" placeholder="Cerca Scheda...">
+                    <button class="btn" onclick="showAddForm()">Aggiungi Scheda</button>
+                </div>
+                <ul id="database-list" class="record-list"></ul>
+                <div class="back-button">
+                    <a href="#" onclick="backToDashboard()">Torna alla schermata principale</a>
+                </div>
+            </div>
+
+            <!-- Add New Entry Form -->
+            <div id="add-form" class="section">
+                <h2>Aggiungi una nuova scheda</h2>
+                <form id="record-form">
+                    <input type="text" id="fullName" placeholder="Nome Completo" required>
+                    <input type="date" id="birthDate" placeholder="Data di Nascita" required>
+                    <input type="text" id="birthPlace" placeholder="Luogo di Nascita" required>
+                    <input type="text" id="residence" placeholder="Comune di Residenza" required>
+                    <input type="text" id="penalties" placeholder="Precedenti Penali" required>
+                    <input type="text" id="trafficOffenses" placeholder="Reati Stradali" required>
+                    <button type="submit" class="btn">Salva</button>
+                </form>
+            </div>
+
+            <!-- Modal for Viewing Record -->
+            <div id="info-modal" class="modal">
+                <div id="info-content" class="modal-content">
+                    <p id="info-details"></p>
+                    <button class="btn" onclick="closeModal()">Chiudi</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Funzione per effettuare il login
-        function login() {
-            const validUsername = "admin";   // Username predefinito
-            const validPassword = "password123";  // Password predefinita
-
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            // Verifica delle credenziali
-            if (username === validUsername && password === validPassword) {
-                // Memorizza la sessione dell'utente nel localStorage
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
-
-                // Reindirizza l'utente alla pagina principale
-                window.location.href = "home.html";
-            } else {
-                // Mostra un messaggio di errore se le credenziali sono errate
-                document.getElementById("error-message").textContent = "Credenziali errate. Riprova.";
-            }
-        }
-
-        // Verifica se l'utente è già loggato
-        window.onload = function() {
-            if (localStorage.getItem('loggedIn') === 'true') {
-                window.location.href = "home.html"; // Se è già loggato, reindirizza alla pagina principale
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
