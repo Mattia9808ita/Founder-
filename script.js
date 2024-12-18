@@ -28,11 +28,11 @@ function showSubSection(subSectionId) {
 }
 
 function showAddForm() {
-  document.getElementById("add-form").style.display = "block";
+  document.getElementById("add-form").classList.add('show');
 }
 
 function closeAddForm() {
-  document.getElementById("add-form").style.display = "none";
+  document.getElementById("add-form").classList.remove('show');
 }
 
 document.getElementById("form-scheda").addEventListener("submit", function(event) {
