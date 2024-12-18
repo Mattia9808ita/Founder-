@@ -1,64 +1,55 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roleplay Database</title>
+    <title>Law Enforcement Database</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="hero">
-        <div class="container">
-            <h1>Roleplay Database</h1>
-            <p>Gestione avanzata per le forze dell'ordine nei giochi di ruolo</p>
-        </div>
+    <header>
+        <h1>Law Enforcement Database</h1>
+        <nav>
+            <a href="#officer-search">Search Officers</a>
+            <a href="#criminal-records">Criminal Records</a>
+            <a href="#add-record">Add Record</a>
+        </nav>
     </header>
-    <nav class="navbar">
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Funzionalità</a></li>
-            <li><a href="#contact">Contatti</a></li>
-        </ul>
-    </nav>
     <main>
-        <section id="home" class="section">
-            <div class="container">
-                <h2>Benvenuto</h2>
-                <p>Roleplay Database è il tuo strumento definitivo per gestire e archiviare dati cruciali nei giochi di ruolo legati alle forze dell'ordine.</p>
-            </div>
+        <section id="officer-search">
+            <h2>Search Officers</h2>
+            <input type="text" id="officer-name" placeholder="Enter officer's name...">
+            <button onclick="searchOfficer()">Search</button>
+            <ul id="officer-results"></ul>
         </section>
-        <section id="features" class="section">
-            <div class="container">
-                <h2>Funzionalità principali</h2>
-                <ul>
-                    <li>Gestione di profili utente</li>
-                    <li>Accesso a database centralizzati</li>
-                    <li>Interfaccia personalizzabile</li>
-                </ul>
-            </div>
+        <section id="criminal-records">
+            <h2>Criminal Records</h2>
+            <button onclick="loadRecords()">View Records</button>
+            <table id="records-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Crime</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </section>
-        <section id="contact" class="section">
-            <div class="container">
-                <h2>Contattaci</h2>
-                <form id="contact-form">
-                    <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" required>
-
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-
-                    <label for="message">Messaggio:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-
-                    <button type="submit">Invia</button>
-                </form>
-            </div>
+        <section id="add-record">
+            <h2>Add Record</h2>
+            <form id="record-form">
+                <input type="text" id="criminal-name" placeholder="Criminal's Name" required>
+                <input type="text" id="crime" placeholder="Crime Committed" required>
+                <input type="date" id="crime-date" required>
+                <button type="submit">Add Record</button>
+            </form>
         </section>
     </main>
-    <footer class="footer">
-        <p>&copy; 2024 Roleplay Database. Creato da [Il Tuo Nome]</p>
+    <footer>
+        <p>&copy; 2024 Law Enforcement Database</p>
     </footer>
     <script src="script.js"></script>
 </body>
 </html>
-
