@@ -127,3 +127,56 @@ button:hover {
   display: block;
   opacity: 1;
 }
+
+/* Modal for Information */
+#info-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: none;
+}
+
+#info-content {
+  margin-bottom: 20px;
+}
+
+#info-modal button {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#info-modal button:hover {
+  background-color: #d32f2f;
+}
+
+/* Add Form */
+.form-container {
+  display: none;
+}
+
+.form-container.show {
+  display: block;
+}
+
+input, button {
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
