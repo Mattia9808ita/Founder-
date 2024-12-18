@@ -1,7 +1,44 @@
 const agenti = ["Mario Rossi", "Luca Bianchi", "Giulia Verdi"];
 const registri = [];
 
-// Funzione per gestire la registrazione
+// Verifica login all'avvio
+document.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem('utenteLoggato')) {
+        mostraDatabase();
+    } else {
+        document.getElementById('login-registrazione').style.display = 'block';
+    }
+});
+
+// Mostra il modulo di login
+function mostraLogin() {
+    document.getElementById('login-registrazione').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+    document.getElementById('registrazione').style.display = 'none';
+}
+
+// Mostra il modulo di registrazione
+function mostraRegistrazione() {
+    document.getElementById('login-registrazione').style.display = 'none';
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('registrazione').style.display = 'block';
+}
+
+// Mostra il database dopo il login
+function mostraDatabase() {
+    document.getElementById('login-registrazione').style.display = 'none';
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('registrazione').style.display = 'none';
+    document.getElementById('database').style.display = 'block';
+}
+
+// Logout
+function logout() {
+    localStorage.removeItem('utenteLoggato');
+    location.reload();
+}
+
+// Gestione della registrazione
 document.getElementById('form-registrazione').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('reg-username').value;
@@ -13,10 +50,11 @@ document.getElementById('form-registrazione').addEventListener('submit', functio
         localStorage.setItem(username, password);
         document.getElementById('reg-messaggio').textContent = "Registrazione completata con successo!";
         document.getElementById('form-registrazione').reset();
+        mostraLogin();
     }
 });
 
-// Funzione per gestire il login
+// Gestione del login
 document.getElementById('form-login').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('login-username').value;
@@ -24,13 +62,14 @@ document.getElementById('form-login').addEventListener('submit', function(event)
 
     const savedPassword = localStorage.getItem(username);
     if (savedPassword && savedPassword === password) {
-        document.getElementById('login-messaggio').textContent = "Accesso effettuato con successo!";
+        localStorage.setItem('utenteLoggato', username);
+        mostraDatabase();
     } else {
         document.getElementById('login-messaggio').textContent = "Nome utente o password errati!";
     }
 });
 
-// Funzione per cercare agenti
+// Funzioni per la gestione del database
 function cercaAgente() {
     const nome = document.getElementById('nome-agente').value.toLowerCase();
     const risultati = agenti.filter(agente => agente.toLowerCase().includes(nome));
@@ -40,7 +79,6 @@ function cercaAgente() {
         : '<li>Nessun risultato trovato</li>';
 }
 
-// Funzione per caricare i registri criminali
 function caricaRegistri() {
     const corpoTabella = document.getElementById('tabella-registri').querySelector('tbody');
     corpoTabella.innerHTML = registri.length 
@@ -53,7 +91,6 @@ function caricaRegistri() {
         : '<tr><td colspan="3">Nessun registro trovato</td></tr>';
 }
 
-// Funzione per aggiungere un registro criminale
 document.getElementById('form-registro').addEventListener('submit', function(event) {
     event.preventDefault();
     const nome = document.getElementById('nome-criminale').value;
