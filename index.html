@@ -52,57 +52,52 @@
         <button onclick="showSubSection('mandati')">Mandati</button>
       </div>
 
-      <!-- Database Sub-Section -->
-      <div id="database" class="subsection" style="display: none;">
-        <h2>Database</h2>
-        <button onclick="showAddForm()">Aggiungi Scheda</button>
-        <input type="text" id="search" placeholder="Cerca Scheda" oninput="searchDatabase()">
-        <ul id="database-list">
-          <!-- Schede create will appear here -->
-        </ul>
-        <button onclick="showSection('informazioni')">Torna Indietro</button>
-      </div>
+<!-- Database Sub-Section -->
+<div id="database" class="subsection" style="display: none;">
+  <h2>Database</h2>
+  <button onclick="showAddForm()">Aggiungi Scheda</button>
+  <input type="text" id="search" placeholder="Cerca Scheda" oninput="searchDatabase()">
+  <ul id="database-list">
+    <!-- Schede create will appear here -->
+  </ul>
+  <button onclick="showSection('informazioni')">Torna Indietro</button>
+</div>
 
-      <!-- Add Form Modal -->
-      <div id="add-form" class="modal" style="display: none;">
-        <h3>Compila i Dettagli della Scheda</h3>
-        <form id="form-scheda">
-          <div class="form-group">
-            <label for="nome-completo">Nome Completo</label>
-            <input type="text" id="nome-completo" name="nome-completo" required>
-          </div>
+<!-- Information Modal for Database -->
+<div id="info-modal" class="modal" style="display: none;">
+  <h3>Informazioni Scheda</h3>
+  <div id="info-content">
+    <!-- The details will be filled here dynamically -->
+  </div>
+  <button onclick="closeInfoModal()">Chiudi</button>
+</div>
 
-          <div class="form-group">
-            <label for="data-nascita">Data di Nascita</label>
-            <input type="date" id="data-nascita" name="data-nascita" required>
-          </div>
+<!-- Add Form -->
+<div id="add-form" class="form-container">
+  <form id="form-scheda">
+    <label for="nome-completo">Nome Completo</label>
+    <input type="text" id="nome-completo" required>
 
-          <div class="form-group">
-            <label for="luogo-nascita">Luogo di Nascita</label>
-            <input type="text" id="luogo-nascita" name="luogo-nascita" required>
-          </div>
+    <label for="data-nascita">Data di Nascita</label>
+    <input type="date" id="data-nascita" required>
 
-          <div class="form-group">
-            <label for="comune-residenza">Comune di Residenza</label>
-            <input type="text" id="comune-residenza" name="comune-residenza" required>
-          </div>
+    <label for="luogo-nascita">Luogo di Nascita</label>
+    <input type="text" id="luogo-nascita" required>
 
-          <div class="form-group">
-            <label for="precedenti-penali">Precedenti Penali</label>
-            <input type="text" id="precedenti-penali" name="precedenti-penali">
-          </div>
+    <label for="comune-residenza">Comune di Residenza</label>
+    <input type="text" id="comune-residenza" required>
 
-          <div class="form-group">
-            <label for="reati-stradali">Reati Stradali</label>
-            <input type="text" id="reati-stradali" name="reati-stradali">
-          </div>
+    <label for="precedenti-penali">Precedenti Penali</label>
+    <input type="text" id="precedenti-penali">
 
-          <div class="form-actions">
-            <button type="submit">Salva</button>
-            <button type="button" onclick="closeAddForm()">Annulla</button>
-          </div>
-        </form>
-      </div>
+    <label for="reati-stradali">Reati Stradali</label>
+    <input type="text" id="reati-stradali">
+
+    <button type="submit">Salva</button>
+  </form>
+  <button onclick="closeAddForm()">Annulla</button>
+</div>
+
 
     </div>
   </div>
