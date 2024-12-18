@@ -13,14 +13,19 @@ header {
     text-align: center;
 }
 
-header nav a {
-    color: white;
+nav a, nav button {
     margin: 0 10px;
+    padding: 0.5rem 1rem;
     text-decoration: none;
+    color: white;
+    background-color: #0047ab;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-header nav a:hover {
-    text-decoration: underline;
+nav a:hover, nav button:hover {
+    background-color: #003580;
 }
 
 main {
@@ -35,12 +40,16 @@ section {
     border-radius: 5px;
 }
 
-input, button {
+input, textarea, button {
     margin: 0.5rem 0;
     padding: 0.5rem;
     width: calc(100% - 1rem);
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+textarea {
+    resize: none;
 }
 
 button {
@@ -58,16 +67,24 @@ button:hover {
     font-weight: bold;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+.registri-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-table th, table td {
+.registro {
     border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: left;
+    border-radius: 5px;
+    padding: 1rem;
+    background: #fff;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.registro h3 {
+    margin-top: 0;
 }
 
 footer {
