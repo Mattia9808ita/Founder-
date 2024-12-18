@@ -89,3 +89,41 @@ button:hover {
 #database-list li {
   margin-bottom: 10px;
 }
+
+/* Form Styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-actions button {
+  width: 48%;
+}
+
+/* Modal Transition */
+.modal {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+  display: block;
+  opacity: 1;
+}
