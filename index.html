@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database di Sicurezza</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <title>Database Forze dell'Ordine</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Schermata di login -->
+    <!-- Schermata di Login -->
     <div id="login-screen" class="screen">
-        <h1>Accesso al Database</h1>
+        <h1>Accedi al Database</h1>
         <form id="login-form" onsubmit="login(); return false;">
             <input type="text" id="username" placeholder="Nome Utente" required>
             <input type="text" id="rp-name" placeholder="Nome RP" required>
@@ -21,69 +20,52 @@
 
     <!-- Schermata di caricamento -->
     <div id="loading-screen" class="screen">
-        <h2>Accesso in corso...</h2>
+        <p>Accesso al database in corso...</p>
     </div>
 
     <!-- Schermata principale -->
-    <div id="main-content" class="main-content">
-        <nav class="sidebar">
-            <h2>Menu</h2>
+    <div id="main-content" class="screen" style="display: none;">
+        <div class="sidebar">
             <ul>
-                <li><a href="#" onclick="showSection('database')">Database</a></li>
-                <li><a href="#" onclick="showSection('reports')">Rapporti</a></li>
-                <li><a href="#" onclick="showSection('penal-code')">Codice Penale</a></li>
-                <li><a href="#" onclick="showSection('denunciations')">Denunce</a></li>
+                <li><button onclick="showSection('database')">Database</button></li>
+                <li><button onclick="showSection('reports')">Rapporti</button></li>
+                <li><button onclick="showSection('penal-code')">Codice Penale</button></li>
+                <li><button onclick="showSection('traffic-code')">Codice Stradale</button></li>
+                <li><button onclick="showSection('complaints')">Denunce</button></li>
             </ul>
-        </nav>
-
+        </div>
         <div class="content">
-            <section id="database" class="section">
-                <h2>Gestione Database</h2>
-                <button class="btn" onclick="showAddForm()">Aggiungi Scheda</button>
-                <input type="text" id="search" class="search-bar" placeholder="Cerca nel database...">
-                <ul id="database-list" class="record-list"></ul>
-            </section>
+            <!-- Sezione Database -->
+            <div id="database" class="section show">
+                <h2>Sezione Database</h2>
+                <input type="text" id="search" placeholder="Cerca Scheda...">
+                <ul id="database-list"></ul>
+                <button onclick="showAddForm()">Aggiungi Scheda</button>
+            </div>
 
-            <section id="reports" class="section">
-                <h2>Gestione Rapporti</h2>
-                <p>Seleziona il tipo di rapporto da visualizzare.</p>
-            </section>
+            <!-- Modulo per aggiungere una nuova scheda -->
+            <div id="add-form" class="add-form">
+                <h3>Aggiungi Scheda</h3>
+                <form id="record-form">
+                    <input type="text" id="fullName" placeholder="Nome Completo" required>
+                    <input type="date" id="birthDate" placeholder="Data di Nascita" required>
+                    <input type="text" id="birthPlace" placeholder="Luogo di Nascita" required>
+                    <input type="text" id="residence" placeholder="Comune di Residenza" required>
+                    <textarea id="penalties" placeholder="Precedenti Penali" required></textarea>
+                    <textarea id="trafficOffenses" placeholder="Reati Stradali" required></textarea>
+                    <button type="submit">Salva</button>
+                    <button type="button" onclick="closeAddForm()">Annulla</button>
+                </form>
+            </div>
 
-            <section id="penal-code" class="section">
-                <h2>Codice Penale/Stradale</h2>
-                <p>Consulta i codici penale e stradale.</p>
-            </section>
-
-            <section id="denunciations" class="section">
-                <h2>Gestione Denunce</h2>
-                <p>Visualizza e gestisci le denunce.</p>
-            </section>
+            <!-- Modale per visualizzare i dettagli di una scheda -->
+            <div id="info-modal" class="info-modal">
+                <div id="info-details"></div>
+                <button onclick="closeModal()">Chiudi</button>
+            </div>
         </div>
     </div>
 
-    <!-- Finestra modale per visualizzare i dettagli -->
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="info-details"></div>
-        </div>
-    </div>
-
-    <!-- Form per aggiungere una nuova scheda -->
-    <div id="add-form" class="form-modal">
-        <div class="form-content">
-            <h2>Aggiungi Nuova Scheda</h2>
-            <form id="record-form">
-                <input type="text" id="fullName" placeholder="Nome Completo" required>
-                <input type="date" id="birthDate" placeholder="Data di Nascita" required>
-                <input type="text" id="birthPlace" placeholder="Luogo di Nascita" required>
-                <input type="text" id="residence" placeholder="Comune di Residenza" required>
-                <input type="text" id="penalties" placeholder="Precedenti Penali" required>
-                <input type="text" id="trafficOffenses" placeholder="Reati Stradali" required>
-                <button type="submit" class="btn">Salva</button>
-                <button type="button" class="btn" onclick="closeAddForm()">Annulla</button>
-            </form>
-        </div>
-    </div>
+    <script src="script.js"></script>
 </body>
 </html>
