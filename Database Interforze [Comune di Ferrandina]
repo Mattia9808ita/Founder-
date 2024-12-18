@@ -1,135 +1,44 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_sqlalchemy import SQLAlchemy
-from functools import wraps
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Database</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Benvenuti nel Database delle Forze dell'Ordine</h1>
+        <nav>
+            <ul>
+                <li><a href="#criminali">Criminali</a></li>
+                <li><a href="#indagini">Indagini</a></li>
+                <li><a href="#personale">Personale</a></li>
+            </ul>
+        </nav>
+    </header>
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
+    <section id="criminali">
+        <h2>Criminali Ricercati</h2>
+        <table id="criminali-table">
+            <!-- I dati dei criminali verranno caricati qui -->
+        </table>
+    </section>
 
-# Models
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    role = db.Column(db.String(10), nullable=False, default='user')
+    <section id="indagini">
+        <h2>Indagini in Corso</h2>
+        <table id="indagini-table">
+            <!-- I dati delle indagini verranno caricati qui -->
+        </table>
+    </section>
 
-class Case(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    status = db.Column(db.String(20), nullable=False, default='In sospeso')
-    created_by = db.Column(db.String(20), nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.now())
+    <section id="personale">
+        <h2>Personale di Polizia</h2>
+        <table id="personale-table">
+            <!-- I dati del personale verranno caricati qui -->
+        </table>
+    </section>
 
-class ActivityLog(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    action = db.Column(db.String(100), nullable=False)
-    user = db.Column(db.String(20), nullable=False)
-    timestamp = db.Column(db.DateTime, default=db.func.now())
-
-# Decorators
-def role_required(role):
-    def decorator(f):
-        @wraps(f)
-        def wrapped(*args, **kwargs):
-            if 'username' not in session or session.get('role') != role:
-                flash('Accesso non autorizzato.', 'danger')
-                return redirect(url_for('login'))
-            return f(*args, **kwargs)
-        return wrapped
-    return decorator
-
-# Routes
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        user = User.query.filter_by(username=username, password=password).first()
-        if user:
-            session['username'] = user.username
-            session['role'] = user.role
-            flash('Login effettuato con successo.', 'success')
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Credenziali non valide.', 'danger')
-    return render_template('login.html')
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    flash('Logout effettuato con successo.', 'success')
-    return redirect(url_for('login'))
-
-@app.route("/dashboard")
-def dashboard():
-    if 'username' not in session:
-        flash('Devi effettuare il login per accedere al dashboard.', 'warning')
-        return redirect(url_for('login'))
-
-    cases_count = Case.query.count()
-    resolved_cases = Case.query.filter_by(status="Risolto").count()
-    pending_cases = Case.query.filter_by(status="In sospeso").count()
-
-    return render_template("dashboard.html", 
-                           cases_count=cases_count, 
-                           resolved_cases=resolved_cases, 
-                           pending_cases=pending_cases)
-
-@app.route("/cases", methods=['GET', 'POST'])
-def cases():
-    if 'username' not in session:
-        flash('Devi effettuare il login.', 'warning')
-        return redirect(url_for('login'))
-
-    if request.method == 'POST':
-        title = request.form.get('title')
-        description = request.form.get('description')
-        new_case = Case(title=title, description=description, created_by=session['username'])
-        db.session.add(new_case)
-        db.session.commit()
-
-        log = ActivityLog(action=f"Caso '{title}' creato", user=session['username'])
-        db.session.add(log)
-        db.session.commit()
-
-        flash('Caso aggiunto con successo!', 'success')
-        return redirect(url_for('cases'))
-
-    all_cases = Case.query.all()
-    return render_template("cases.html", cases=all_cases)
-
-@app.route("/manage_users", methods=['GET', 'POST'])
-@role_required('admin')
-def manage_users():
-    users = User.query.all()
-
-    if request.method == 'POST':
-        user_id = request.form.get('user_id')
-        new_role = request.form.get('role')
-        user = User.query.get(user_id)
-        if user:
-            user.role = new_role
-            db.session.commit()
-
-            log = ActivityLog(action=f"Ruolo di {user.username} aggiornato a {new_role}", user=session['username'])
-            db.session.add(log)
-            db.session.commit()
-
-            flash(f"Ruolo di {user.username} aggiornato a {new_role}.", 'success')
-        else:
-            flash("Utente non trovato.", 'danger')
-        return redirect(url_for('manage_users'))
-
-    return render_template("manage_users.html", users=users)
-
-@app.route("/logs")
-@role_required('admin')
-def logs():
-    logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
-    return render_template("logs.html", logs=logs)
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
+    <script src="app.js"></script>
+</body>
+</html>
