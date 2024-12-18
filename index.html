@@ -9,16 +9,17 @@
 <body>
     <header>
         <h1>Database Forze dell'Ordine</h1>
-        <nav>
-            <a href="#login">Login</a>
-            <a href="#registrazione">Registrazione</a>
-            <a href="#ricerca-agenti">Cerca Agenti</a>
-            <a href="#registri-criminali">Registri Criminali</a>
-            <a href="#aggiungi-registro">Aggiungi Registro</a>
-        </nav>
     </header>
-    <main>
-        <section id="login">
+    <main id="contenuto-principale">
+        <section id="login-registrazione">
+            <h2>Benvenuto</h2>
+            <p>Effettua il login o registrati per accedere al database.</p>
+            <div>
+                <button onclick="mostraLogin()">Login</button>
+                <button onclick="mostraRegistrazione()">Registrazione</button>
+            </div>
+        </section>
+        <section id="login" style="display: none;">
             <h2>Login</h2>
             <form id="form-login">
                 <input type="text" id="login-username" placeholder="Nome utente" required>
@@ -27,7 +28,7 @@
             </form>
             <p id="login-messaggio" class="messaggio"></p>
         </section>
-        <section id="registrazione">
+        <section id="registrazione" style="display: none;">
             <h2>Registrazione</h2>
             <form id="form-registrazione">
                 <input type="text" id="reg-username" placeholder="Nome utente" required>
@@ -36,35 +37,43 @@
             </form>
             <p id="reg-messaggio" class="messaggio"></p>
         </section>
-        <section id="ricerca-agenti">
-            <h2>Cerca Agenti</h2>
-            <input type="text" id="nome-agente" placeholder="Inserisci il nome dell'agente...">
-            <button onclick="cercaAgente()">Cerca</button>
-            <ul id="risultati-agenti"></ul>
-        </section>
-        <section id="registri-criminali">
-            <h2>Registri Criminali</h2>
-            <button onclick="caricaRegistri()">Visualizza Registri</button>
-            <table id="tabella-registri">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Crimine</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </section>
-        <section id="aggiungi-registro">
-            <h2>Aggiungi Registro</h2>
-            <form id="form-registro">
-                <input type="text" id="nome-criminale" placeholder="Nome del Criminale" required>
-                <input type="text" id="crimine" placeholder="Crimine Commisso" required>
-                <input type="date" id="data-crimine" required>
-                <button type="submit">Aggiungi Registro</button>
-            </form>
+        <section id="database" style="display: none;">
+            <nav>
+                <a href="#ricerca-agenti">Cerca Agenti</a>
+                <a href="#registri-criminali">Registri Criminali</a>
+                <a href="#aggiungi-registro">Aggiungi Registro</a>
+                <button onclick="logout()">Logout</button>
+            </nav>
+            <section id="ricerca-agenti">
+                <h2>Cerca Agenti</h2>
+                <input type="text" id="nome-agente" placeholder="Inserisci il nome dell'agente...">
+                <button onclick="cercaAgente()">Cerca</button>
+                <ul id="risultati-agenti"></ul>
+            </section>
+            <section id="registri-criminali">
+                <h2>Registri Criminali</h2>
+                <button onclick="caricaRegistri()">Visualizza Registri</button>
+                <table id="tabella-registri">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Crimine</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </section>
+            <section id="aggiungi-registro">
+                <h2>Aggiungi Registro</h2>
+                <form id="form-registro">
+                    <input type="text" id="nome-criminale" placeholder="Nome del Criminale" required>
+                    <input type="text" id="crimine" placeholder="Crimine Commisso" required>
+                    <input type="date" id="data-crimine" required>
+                    <button type="submit">Aggiungi Registro</button>
+                </form>
+            </section>
         </section>
     </main>
     <footer>
